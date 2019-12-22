@@ -101,25 +101,6 @@ public class MainController : SerializedMonoBehaviour
         {
             AddNum(num.ToString());
         }
-
-        //try
-        //{
-        //    foreach (var g in _lottNumObjList)
-        //    {
-        //        //被ったら
-        //        //Debug.Log(g.GetComponent<TextMeshProUGUI>().text + " " + num.ToString());
-        //        if (g.GetComponent<TextMeshProUGUI>().text == num.ToString())
-        //        {
-        //            //再抽選
-        //            AddUnique();
-        //            return;
-        //        }
-        //    }
-        //}
-        //catch (Exception)
-        //{
-
-        //}
     }
 
     [Button("Reset", ButtonSizes.Large)]
