@@ -10,6 +10,7 @@ public class MainController : SerializedMonoBehaviour
     [SerializeField] private TextMeshProUGUI _mainText;
     [SerializeField] private float _updateInterval;
     [SerializeField] private List<GameObject> _lottNumObjList = new List<GameObject>();
+    [SerializeField] private List<int> _lotNumLogList = new List<int>();
     [SerializeField] private GameObject _lotNumObjParent;
     [SerializeField] private GameObject _lotNumObjPrefab;
     [SerializeField] private int _maxNum;
@@ -71,11 +72,11 @@ public class MainController : SerializedMonoBehaviour
 
         g.GetComponent<RectTransform>().anchoredPosition = new Vector2(150f * (len % 8) + 210f, (-100f * line) - 300f);
         g.GetComponent<TextMeshProUGUI>().text = text;
-        g.name = "num";
 
         if ((len % 8) == 7) line++;
 
         _lottNumObjList.Add(g);
+        _lotNumLogList.Add(int.Parse(text));
     }
 
     /// <summary>
@@ -91,26 +92,34 @@ public class MainController : SerializedMonoBehaviour
 
         var num = UnityEngine.Random.Range(1, _maxNum);
 
-        try
+        if (_lotNumLogList.Contains(num))
         {
-            foreach (var g in _lottNumObjList)
-            {
-                //被ったら
-                //Debug.Log(g.GetComponent<TextMeshProUGUI>().text + " " + num.ToString());
-                if (g.GetComponent<TextMeshProUGUI>().text == num.ToString())
-                {
-                    //再抽選
-                    AddUnique();
-                    return;
-                }
-            }
+            //再抽選
+            AddUnique();
         }
-        catch (Exception)
+        else
         {
-
+            AddNum(num.ToString());
         }
 
-        AddNum(num.ToString());
+        //try
+        //{
+        //    foreach (var g in _lottNumObjList)
+        //    {
+        //        //被ったら
+        //        //Debug.Log(g.GetComponent<TextMeshProUGUI>().text + " " + num.ToString());
+        //        if (g.GetComponent<TextMeshProUGUI>().text == num.ToString())
+        //        {
+        //            //再抽選
+        //            AddUnique();
+        //            return;
+        //        }
+        //    }
+        //}
+        //catch (Exception)
+        //{
+
+        //}
     }
 
     [Button("Reset", ButtonSizes.Large)]
@@ -123,6 +132,8 @@ public class MainController : SerializedMonoBehaviour
 
         _lottNumObjList.Clear();
         _lottNumObjList.Add(new GameObject());
+
+        _lotNumLogList.Clear();
 
         _mainText.text = "0";
     }
